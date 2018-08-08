@@ -5,5 +5,31 @@
 {% endblock %}
 
 {% block body %}
-{{ customer }}だよ！
+<h4 class="mt-4 border-bottom">顧客一覧</h4>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">名前</th>
+      <th scope="col">性別</th>
+      <th scope="col">年齢</th>
+      <th scope="col">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for customer in customers %}
+    <tr>
+      <th scope="row">{{ customer.id }}</th>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.gender }}</td>
+      <td>{{ customer.age }}</td>
+      <td>
+        <a href="{% url 'customers:edit' customer_id=customer.id %}" class="btn btn-outline-primary btn-sm">編集</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'customers:add' %}" class="btn btn-primary btn-sm my-3">新規追加</a>
 {% endblock %}
