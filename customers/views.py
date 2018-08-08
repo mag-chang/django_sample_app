@@ -46,6 +46,6 @@ def customer_edit(request, customer_id=None):
 
     return render(
         request,
-        'customer/edit.html',
+        'customers/edit.html',
         dict(form=form, customer_id=customer_id)
     )

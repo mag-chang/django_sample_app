@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% load bootstrap4 %}
+
 {% block title %}
-    {% if book_id %}
+    {% if customer_id %}
     顧客編集
     {% else %}
     顧客追加
@@ -9,11 +11,12 @@
 {% endblock %}
 
 {% block body %}
-    {% if book_id %}
+    {% if customer_id %}
     <h4 class="mt-4 mb-5 border-bottom">顧客編集</h4>
     <form action="{% url 'customers:edit' customer_id=customer_id %}" method="post">
     {% else %}
-    <form action="{% url 'customer:add' %}" method="post">
+    <h4 class="mt-4 mb-5 border-bottom">顧客追加</h4>
+    <form action="{% url 'customers:add' %}" method="post">
     {% endif %}
       {% csrf_token %}
       {% bootstrap_form form layout='horizontal' %}
@@ -23,5 +26,4 @@
         </div>
       </div>
     </form>
-    <!--<a href="{% url 'customer:book_list' %}" class="btn btn-secondary btn-sm">戻る</a>-->
 {% endblock %}
