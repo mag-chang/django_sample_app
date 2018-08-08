@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
 <head>
     <meta charset="UTF-8">
     <title>
@@ -8,7 +12,9 @@
     </title>
 </head>
 <body>
-{% block body %}
-{% endblock %}
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+    </div>
 </body>
 </html>
