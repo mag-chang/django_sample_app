@@ -20,3 +20,5 @@ class Customer(models.Model):
         choices=GENDER,
     )
     age = models.SmallIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
