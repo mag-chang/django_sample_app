@@ -11,9 +11,8 @@ def get_lesson_history_list(request):
 
     histories = History.objects.all().order_by('id')
     for history in histories:
-        func = Logics().__getattribute__(history.lesson_plan.calculate_logic.logic_name)
-        # lesson_price = locals()[history.lesson_plan.calculate_logic.logic_name](history.lesson_hour)
-        lesson_price = func(history.lesson_hour)
+        calculate_function = Logics().__getattribute__(history.lesson_plan.calculate_logic.logic_name)
+        lesson_price = calculate_function(history.lesson_hour)
         history.__setattr__('lesson_price', lesson_price)
 
     return render(request,

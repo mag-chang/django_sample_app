@@ -1,5 +1,6 @@
 from django.test import TestCase
 from lessons.calculate_logics import logics
+from lessons.models import CalculateLogic, Plan
 
 
 class CalculateLogicTest(TestCase):
@@ -39,12 +40,13 @@ class CalculateLogicTest(TestCase):
         self.assertEqual(result_hour, assert_hour)
 
     def test_calculate_english(self):
+        self.assertEqual(logics.Logics().calculate_english(15), 57500)
         self.assertEqual(logics.Logics().calculate_english(20), 75000)
         self.assertEqual(logics.Logics().calculate_english(30), 110000)
         self.assertEqual(logics.Logics().calculate_english(80), 285000)
 
     def test_calculate_programming(self):
-        self.assertEqual(logics.Logics().calculate_programming(19), 69000)
+        self.assertEqual(logics.Logics().calculate_programming(12), 44500)
         self.assertEqual(logics.Logics().calculate_programming(20), 72500)
         self.assertEqual(logics.Logics().calculate_programming(21), 75500)
         self.assertEqual(logics.Logics().calculate_programming(30), 102500)
@@ -64,3 +66,23 @@ class CalculateLogicTest(TestCase):
         self.assertEqual(logics.Logics().calculate_finance(50), 150000)
         self.assertEqual(logics.Logics().calculate_finance(51), 152500)
         self.assertEqual(logics.Logics().calculate_finance(80), 225000)
+
+class LessonModelTest(TestCase):
+    fixtures = ['lessons_initial_data']
+
+    def setUp(self):
+        Plan(
+            name='英語プラン',
+            calculate_logic=CalculateLogic.objects.filter(logic_name='calculate_english').first(),
+        ).save()
+
+    def test_get_calculate_function(self):
+        func = CalculateLogic.objects.filter(
+            logic_name='calculate_english',
+        ).first().get_calculate_function()
+
+        self.assertEqual(logics.Logics().calculate_english(20), func(20))
+
+    def test_calculate_price(self):
+        plan = Plan.objects.all().first()
+        self.assertEqual(logics.Logics().calculate_english(20), plan.calculate_price(20))

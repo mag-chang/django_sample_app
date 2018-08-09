@@ -1,5 +1,6 @@
 from django.db import models
 from customers.models import Customer
+from lessons.calculate_logics.logics import Logics
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -10,18 +11,23 @@ class CalculateLogic(models.Model):
     name = models.CharField(
         verbose_name='計算名称',
         max_length=30,
+        unique=True,
     )
     # 料金計算ロジックの関数名を指定する
     logic_name = models.CharField(
         verbose_name='ロジック名称',
         help_text='(入力する値は担当者に要確認)',
         max_length=30,
+        unique=True,
     )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.name
+
+    def get_calculate_function(self):
+        return Logics().__getattribute__(str(self.logic_name))
 
 class Plan(models.Model):
     """
@@ -41,6 +47,10 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.name
+
+    def calculate_price(self, hour):
+        calculate_function = self.calculate_logic.get_calculate_function()
+        return calculate_function(hour)
 
 class History(models.Model):
     """
