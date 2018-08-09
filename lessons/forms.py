@@ -24,22 +24,10 @@ class PlanForm(ModelForm):
     """
     受講ジャンルフォーム
     """
-    started_on = DateField(
-        label='適用開始年月日',
-        widget=SelectDateWidget,
-    )
-    ended_on = DateField(
-        label='適用終了年月日(省略可)',
-        widget=SelectDateWidget,
-        required=False,
-    )
-
     class Meta:
         model = Plan
         fields = (
             'name',
-            'started_on',
-            'ended_on',
             'calculate_logic',
         )
 

@@ -31,13 +31,6 @@ class Plan(models.Model):
         verbose_name='ジャンル名',
         max_length=30,
     )
-    started_on = models.DateField(
-        verbose_name='適用開始年月日',
-    )
-    ended_on = models.DateField(
-        verbose_name='適用終了年月日(任意)',
-        null=True,
-    )
     calculate_logic = models.ForeignKey(
         CalculateLogic,
         verbose_name='計算方法',
