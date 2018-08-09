@@ -2,15 +2,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from lessons.models import History, Plan
 from lessons.forms import HistoryForm, PlanForm, CalculateLogicForm
+from lessons.calculate_logics.logics import Logics
 
 def get_lesson_history_list(request):
     """
     受講記録一覧を取得する
-    :param request:
-    :return: lesson_historyのList
     """
 
     histories = History.objects.all().order_by('id')
+    for history in histories:
+        func = Logics().__getattribute__(history.lesson_plan.calculate_logic.logic_name)
+        # lesson_price = locals()[history.lesson_plan.calculate_logic.logic_name](history.lesson_hour)
+        lesson_price = func(history.lesson_hour)
+        history.__setattr__('lesson_price', lesson_price)
+
     return render(request,
                   'lessons/list.html',
                   {'histories': histories},
@@ -50,7 +55,6 @@ def get_lesson_plan_list(request):
     """
 
     plans = Plan.objects.all().order_by('id')
-    # [plan.started_month = plan.started_month for plan in plans]
     return render(request,
                   'lessons/plan_list.html',
                   {'plans': plans},

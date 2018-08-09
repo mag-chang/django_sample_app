@@ -6,6 +6,11 @@ class HistoryForm(ModelForm):
     """
     受講記録フォーム
     """
+    lesson_on = DateField(
+        label='受講日',
+        widget=SelectDateWidget,
+    )
+
     class Meta:
         model = History
         fields = (

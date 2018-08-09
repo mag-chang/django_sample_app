@@ -14,7 +14,7 @@
       <th scope="col">ジャンル</th>
       <th scope="col">受講日</th>
       <th scope="col">受講時間</th>
-      <th scope="col">支払い金額</th>
+      <th scope="col">支払い金額<br>(日毎の受講時間より計算)</th>
     </tr>
   </thead>
   <tbody>
@@ -22,10 +22,10 @@
     <tr>
       <th scope="row">{{ history.id }}</th>
       <td>{{ history.customer.name }}</td>
-      <td>{{ history.lesson_on }}</td>
       <td>{{ history.lesson_plan }}</td>
-      <td>{{ history.lesson_hour }}</td>
-      <td>{{ history.lesson_price }}</td>
+      <td>{{ history.lesson_on }}</td>
+      <td>{{ history.lesson_hour }} h</td>
+      <td>{{ history.lesson_price }} 円</td>
       <td>
         <a href="{% url 'lessons:history_edit' history_id=history.id %}" class="btn btn-outline-primary btn-sm">編集</a>
       </td>
