@@ -51,6 +51,31 @@ def calculate_programming(lesson_hour):
 
     return total_price
 
+def calculate_finance(lesson_hour):
+    """
+    ファイナンスの料金計算
+    :param lesson_hour: 累計時間
+    :return: 従量の割引など、全て計算済みの合計金額
+    """
+    volume_price = 3300
+
+    volume_discount_list = [
+        VolumeDiscount(20, 2800),
+        VolumeDiscount(50, 2500),
+    ]
+
+    calculated_discount_list, not_discount_hour = calculate_discount(volume_discount_list, lesson_hour)
+
+    # 割引対象外時間 * 通常料金で計算
+    total_price = volume_price * not_discount_hour
+
+    # 割引計算済みの料金があれば加算
+    for volume_discount in calculated_discount_list:
+        if volume_discount.calculated_price:
+            total_price = total_price + volume_discount.calculated_price
+
+    return total_price
+
 def calculate_discount(volume_discount_list: List[VolumeDiscount], lesson_hour: int):
     """
     一定時間を超えた分の割引後の計算結果を返却する

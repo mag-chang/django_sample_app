@@ -30,7 +30,6 @@ class CalculateLogicTest(TestCase):
         result_list, result_hour = logics.calculate_discount(in_list, 45)
         self.compare_discount_result(result_list, result_hour, assert_list, 30)
 
-
     def compare_discount_result(self, result_list, result_hour, assert_list, assert_hour):
         for assert_obj, result_obj in zip(assert_list, result_list):
             self.assertEqual(assert_obj.threshold_hour, result_obj.threshold_hour)
@@ -39,9 +38,11 @@ class CalculateLogicTest(TestCase):
 
         self.assertEqual(result_hour, assert_hour)
 
-
     def test_calculate_programming(self):
         self.assertEqual(logics.calculate_programming(30), 102500)
         self.assertEqual(logics.calculate_programming(32), 108500)
         self.assertEqual(logics.calculate_programming(80), 234500)
         self.assertEqual(logics.calculate_programming(60), 184500)
+
+    def test_calculate_finance(self):
+        self.assertEqual(logics.calculate_finance(30), 94000)
