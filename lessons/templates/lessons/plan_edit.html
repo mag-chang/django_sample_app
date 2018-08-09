@@ -3,20 +3,20 @@
 {% load bootstrap4 %}
 
 {% block title %}
-    {% if customer_id %}
-    顧客編集
+    {% if plan_id %}
+    ジャンル編集
     {% else %}
-    顧客追加
+    ジャンル登録
     {% endif %}
 {% endblock %}
 
 {% block body %}
-    {% if customer_id %}
-    <h4 class="mt-4 mb-5 border-bottom">顧客編集</h4>
-    <form action="{% url 'customers:edit' customer_id=customer_id %}" method="post">
+    {% if plan_id %}
+    <h4 class="mt-4 mb-5 border-bottom">ジャンル編集</h4>
+    <form action="{% url 'lessons:plan_edit' plan_id=plan_id %}" method="post">
     {% else %}
-    <h4 class="mt-4 mb-5 border-bottom">顧客追加</h4>
-    <form action="{% url 'customers:add' %}" method="post">
+    <h4 class="mt-4 mb-5 border-bottom">ジャンル登録</h4>
+    <form action="{% url 'lessons:plan_add' %}" method="post">
     {% endif %}
       {% csrf_token %}
       {% bootstrap_form form layout='horizontal' %}

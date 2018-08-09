@@ -1,0 +1,27 @@
+[
+  {
+    "model": "lessons.CalculateLogic",
+    "pk": 1,
+    "fields":{
+      "name": "英語基本プラン",
+      "logic_name": "calculate_english"
+    }
+  },
+  {
+    "model": "lessons.CalculateLogic",
+    "pk": 2,
+    "fields":{
+      "name": "プログラミング基本プラン",
+      "logic_name": "calculate_programming"
+
+    }
+  },
+  {
+    "model": "lessons.CalculateLogic",
+    "pk": 3,
+    "fields":{
+      "name": "ファイナンス基本プラン",
+      "logic_name": "calculate_finance"
+    }
+  }
+]
