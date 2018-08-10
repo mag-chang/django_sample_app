@@ -25,7 +25,7 @@
   <tbody>
     {% for genre_and_gender in genre_and_gender_list %}
     <tr>
-      <th scope="row">{{ genre_and_gender.plan }}</th>
+      <th scope="row">{{ genre_and_gender.genre }}</th>
       <th>{{ genre_and_gender.gender }}</th>
       <th>{{ genre_and_gender.lesson_count }}</th>
       <th>{{ genre_and_gender.customer_count }}</th>
@@ -49,7 +49,7 @@
   <tbody>
     {% for genre_and_age_range in genre_and_age_range_list %}
     <tr>
-      <th scope="row">{{ genre_and_age_range.plan }}</th>
+      <th scope="row">{{ genre_and_age_range.genre }}</th>
       <th>{{ genre_and_age_range.gender }}</th>
       <th>{{ genre_and_age_range.age_range }}代</th>
       <th>{{ genre_and_age_range.lesson_count }}</th>

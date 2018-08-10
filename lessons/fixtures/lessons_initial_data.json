@@ -25,7 +25,7 @@
     }
   },
   {
-    "model": "lessons.Plan",
+    "model": "lessons.Genre",
     "pk": 1,
     "fields":{
       "name": "英語",
@@ -33,7 +33,7 @@
     }
   },
   {
-    "model": "lessons.Plan",
+    "model": "lessons.Genre",
     "pk": 2,
     "fields":{
       "name": "プログラミング",
@@ -41,7 +41,7 @@
     }
   },
   {
-    "model": "lessons.Plan",
+    "model": "lessons.Genre",
     "pk": 3,
     "fields":{
       "name": "ファイナンス",

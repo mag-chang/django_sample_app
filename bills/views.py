@@ -50,7 +50,7 @@ def get_bill_list(request, year=None, month=None):
             lesson_on__gte=start_date,
             lesson_on__lte=end_date,
         ).order_by(
-            'lesson_plan',
+            'lesson_genre',
         )
 
         sum_lesson_history = SumLessonHistory()
@@ -59,7 +59,7 @@ def get_bill_list(request, year=None, month=None):
 
         # 受講履歴があれば内容を集計
         if lesson_history:
-            before_plan = None
+            before_genre = None
             lesson_name_list = []
             subtotal_hour_per_lesson = 0
             subtotal_price = 0
@@ -67,17 +67,17 @@ def get_bill_list(request, year=None, month=None):
             # 受講履歴があれば内容を集計
             for history in lesson_history:
                 # レッスン内容が変わったら累計時間から料金計算
-                if before_plan and history.lesson_plan.id != before_plan.id:
-                    subtotal_price += before_plan.calculate_price(subtotal_hour_per_lesson)
+                if before_genre and history.lesson_genre.id != before_genre.id:
+                    subtotal_price += before_genre.calculate_price(subtotal_hour_per_lesson)
                     subtotal_hour_per_lesson = 0
 
-                lesson_name_list.append(history.lesson_plan.name)
+                lesson_name_list.append(history.lesson_genre.name)
                 subtotal_hour_per_lesson += history.lesson_hour
-                before_plan = history.lesson_plan
+                before_genre = history.lesson_genre
 
             else:
                 # forの最後も料金計算
-                subtotal_price += before_plan.calculate_price(subtotal_hour_per_lesson)
+                subtotal_price += before_genre.calculate_price(subtotal_hour_per_lesson)
 
             # レッスンの合計回数
             sum_lesson_history.lesson_total_count = len(lesson_name_list)

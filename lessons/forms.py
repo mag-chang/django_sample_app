@@ -1,5 +1,5 @@
 from django.forms import ModelForm, DateField, SelectDateWidget
-from lessons.models import History, Plan, CalculateLogic
+from lessons.models import History, Genre, CalculateLogic
 
 
 class HistoryForm(ModelForm):
@@ -15,17 +15,17 @@ class HistoryForm(ModelForm):
         model = History
         fields = (
             'customer',
-            'lesson_plan',
+            'lesson_genre',
             'lesson_on',
             'lesson_hour',
         )
 
-class PlanForm(ModelForm):
+class GenreForm(ModelForm):
     """
     受講ジャンルフォーム
     """
     class Meta:
-        model = Plan
+        model = Genre
         fields = (
             'name',
             'calculate_logic',

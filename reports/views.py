@@ -2,14 +2,17 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
 from reports.forms import ReportsChoiceYearMonthForm
-from lessons.models import Plan, History
+from lessons.models import Genre, History
 from customers.models import Customer
 import pandas as pd
 
 
 class GenreGenderAgeRange(object):
+    """
+    受講ジャンル、年齢などを保持してtemplateに返すためのオブジェクト
+    """
     def __init__(self):
-        self.plan = ''
+        self.genre = ''
         self.gender = ''
         self.age_range = 0
         self.lesson_count = 0
@@ -42,15 +45,17 @@ def get_report(request, year=None, month=None):
     genre_and_age_range_list = []
 
     # 全ジャンルを取得
-    all_plans = Plan.objects.all().order_by('id')
+    all_genres = Genre.objects.all().order_by('id')
 
-    for plan in all_plans:
+    # 現在として全ての購入データを出せるのか。(津田さん)
+
+    for genre in all_genres:
         gender_count_dict = {}
         for gender_tuple in Customer.GENDER:
             gender_count_dict[gender_tuple[0]] = []
 
         histories = History.objects.filter(
-            lesson_plan=plan,
+            lesson_genre=genre,
             lesson_on__gte=start_date,
             lesson_on__lte=end_date,
         )
@@ -99,7 +104,7 @@ def get_report(request, year=None, month=None):
 
             # ジャンルと性別別向けのList作成
             gender_price_list = GenreGenderAgeRange()
-            gender_price_list.plan = plan.name
+            gender_price_list.genre = genre.name
 
             gender_price_list.gender = key
             gender_price_list.lesson_count = len(value)
@@ -109,7 +114,7 @@ def get_report(request, year=None, month=None):
                 gender_price_list.customer_count = len(sum_hours_df)
                 sub_total_price = 0
                 for i in sum_hours_df.__iter__():
-                    sub_total_price += plan.calculate_price(i)
+                    sub_total_price += genre.calculate_price(i)
                 gender_price_list.price = sub_total_price
 
             genre_and_gender_list.append(gender_price_list)
@@ -117,7 +122,7 @@ def get_report(request, year=None, month=None):
             # ジャンルと年齢層別向けのList作成
             for age_range in range(10, 71, 10):
                 genre_and_age_range = GenreGenderAgeRange()
-                genre_and_age_range.plan = plan.name
+                genre_and_age_range.genre = genre.name
                 genre_and_age_range.gender = key
                 genre_and_age_range.age_range = age_range
 
@@ -125,7 +130,7 @@ def get_report(request, year=None, month=None):
                     target_age_range_df = df[df['age_range'] == age_range]
                     genre_and_age_range.lesson_count = len(target_age_range_df)
                     genre_and_age_range.customer_count = len(target_age_range_df['customer_id'].unique())
-                    genre_and_age_range.price = plan.calculate_price(target_age_range_df['hour'].sum())
+                    genre_and_age_range.price = genre.calculate_price(target_age_range_df['hour'].sum())
 
                 genre_and_age_range_list.append(genre_and_age_range)
 

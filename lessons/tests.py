@@ -1,6 +1,6 @@
 from django.test import TestCase
 from lessons.calculate_logics import logics
-from lessons.models import CalculateLogic, Plan
+from lessons.models import CalculateLogic, Genre
 
 
 class CalculateLogicTest(TestCase):
@@ -74,7 +74,7 @@ class LessonModelTest(TestCase):
     fixtures = ['lessons_initial_data']
 
     def setUp(self):
-        Plan(
+        Genre(
             name='英語プラン',
             calculate_logic=CalculateLogic.objects.filter(logic_name='calculate_english').first(),
         ).save()
@@ -87,5 +87,5 @@ class LessonModelTest(TestCase):
         self.assertEqual(logics.Logics().calculate_english(20), func(20))
 
     def test_calculate_price(self):
-        plan = Plan.objects.all().first()
-        self.assertEqual(logics.Logics().calculate_english(20), plan.calculate_price(20))
+        genre = Genre.objects.all().first()
+        self.assertEqual(logics.Logics().calculate_english(20), genre.calculate_price(20))
