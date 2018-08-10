@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+レッスンジャンル一覧
+{% endblock %}
+
+{% block body %}
+<h4 class="mt-4 border-bottom">レッスンジャンル一覧</h4>
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">ジャンル名</th>
+      <th scope="col">計算方法</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for genre in genres %}
+    <tr>
+      <th scope="row">{{ genre.id }}</th>
+      <td>{{ genre.name }}</td>
+      <td>{{ genre.calculate_logic }}</td>
+      <td>
+        <a href="{% url 'lessons:genre_edit' genre_id=genre.id %}" class="btn btn-outline-primary btn-sm">編集</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'lessons:genre_add' %}" class="btn btn-primary btn-sm my-3">新規追加</a>
+{% endblock %}

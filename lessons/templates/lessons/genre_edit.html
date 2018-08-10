@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block title %}
+    {% if genre_id %}
+    ジャンル編集
+    {% else %}
+    ジャンル登録
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if genre_id %}
+    <h4 class="mt-4 mb-5 border-bottom">ジャンル編集</h4>
+    <form action="{% url 'lessons:genre_edit' genre_id=genre_id %}" method="post">
+    {% else %}
+    <h4 class="mt-4 mb-5 border-bottom">ジャンル登録</h4>
+    <form action="{% url 'lessons:genre_add' %}" method="post">
+    {% endif %}
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <div class="form-group row">
+        <div class="offset-md-3 col-md-9">
+          <button type="submit" class="btn btn-primary">登録</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}

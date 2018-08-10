@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block title %}
+    {% if history_id %}
+    レッスン受講記録編集
+    {% else %}
+    レッスン受講記録登録
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if history_id %}
+    <h4 class="mt-4 mb-5 border-bottom">レッスン受講記録編集</h4>
+    <form action="{% url 'lessons:history_edit' history_id=history_id %}" method="post">
+    {% else %}
+    <h4 class="mt-4 mb-5 border-bottom">レッスン受講記録登録</h4>
+    <form action="{% url 'lessons:history_add' %}" method="post">
+    {% endif %}
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <div class="form-group row">
+        <div class="offset-md-3 col-md-9">
+          <button type="submit" class="btn btn-primary">登録</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}
