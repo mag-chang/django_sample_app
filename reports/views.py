@@ -4,16 +4,17 @@ from django.shortcuts import render
 from reports.forms import ReportsChoiceYearMonthForm
 from lessons.models import Plan, History
 from customers.models import Customer
+import pandas as pd
 
 
-class GenderPriceList(object):
+class GenreGenderAgeRange(object):
     def __init__(self):
         self.plan = ''
         self.gender = ''
-        self.age_range = 0  # optional
+        self.age_range = 0
         self.lesson_count = 0
         self.customer_count = 0
-        self.price = ''
+        self.price = 0
 
 
 def get_report(request, year=None, month=None):
@@ -35,9 +36,10 @@ def get_report(request, year=None, month=None):
             month = today.month
 
     start_date = date(year, month, 1)
-    end_date = start_date + relativedelta(months=1) - relativedelta(days=1)
+    end_date = start_date + relativedelta(months=1) - relativedelta(days=1) # 翌月1日の前日を取得
 
-    return_list = []
+    genre_and_gender_list = []
+    genre_and_age_range_list = []
 
     # 全ジャンルを取得
     all_plans = Plan.objects.all().order_by('id')
@@ -54,9 +56,15 @@ def get_report(request, year=None, month=None):
         )
 
         if histories:
-
-                # ex. こんなListが受講ジャンル毎に作られる
-                #  [
+            for history in histories:
+                gender_count_dict[history.customer.gender].append(
+                    {
+                        'customer_id': history.customer.id,
+                        'hour': history.lesson_hour,
+                        'age_range': int((history.customer.age / 10)) * 10,
+                    }
+                )
+                # ex. gender_count_dictは、こんなdictが受講ジャンル毎に作られる
                 #    { '男性':
                 #       [
                 #           {
@@ -85,26 +93,41 @@ def get_report(request, year=None, month=None):
                 #           },
                 #        ]
                 #    }
-                #  ]
-
-            for history in histories:
-                gender_count_dict[history.customer.gender].append({'customer_id':history.customer.id, 'hour': history.lesson_hour})
 
         for key, value in gender_count_dict.items():
-            gender_price_list = GenderPriceList()
+            df = pd.DataFrame(value)
+
+            # ジャンルと性別別向けのList作成
+            gender_price_list = GenreGenderAgeRange()
             gender_price_list.plan = plan.name
 
             gender_price_list.gender = key
             gender_price_list.lesson_count = len(value)
-            l = []
-            sum_hours = 0
-            for v in value:
-                l.append(v['customer_id'])
-                sum_hours += v['hour']
-            gender_price_list.customer_count = len(sorted(set(l), key=l.index))
-            gender_price_list.price = plan.calculate_price(sum_hours)
 
-            return_list.append(gender_price_list)
+            if len(df):
+                sum_hours_df = df.groupby('customer_id')['hour'].sum()
+                gender_price_list.customer_count = len(sum_hours_df)
+                sub_total_price = 0
+                for i in sum_hours_df.__iter__():
+                    sub_total_price += plan.calculate_price(i)
+                gender_price_list.price = sub_total_price
+
+            genre_and_gender_list.append(gender_price_list)
+
+            # ジャンルと年齢層別向けのList作成
+            for age_range in range(10, 71, 10):
+                genre_and_age_range = GenreGenderAgeRange()
+                genre_and_age_range.plan = plan.name
+                genre_and_age_range.gender = key
+                genre_and_age_range.age_range = age_range
+
+                if len(df):
+                    target_age_range_df = df[df['age_range'] == age_range]
+                    genre_and_age_range.lesson_count = len(target_age_range_df)
+                    genre_and_age_range.customer_count = len(target_age_range_df['customer_id'].unique())
+                    genre_and_age_range.price = plan.calculate_price(target_age_range_df['hour'].sum())
+
+                genre_and_age_range_list.append(genre_and_age_range)
 
     # フォームの初期値に選択済みの値をセット
     form = ReportsChoiceYearMonthForm({'select_year_month':selected_year_month})
@@ -114,6 +137,7 @@ def get_report(request, year=None, month=None):
         'reports/list.html',
         {
             'form': form,
-            'genre_and_gender_list': return_list,
+            'genre_and_gender_list': genre_and_gender_list,
+            'genre_and_age_range_list': genre_and_age_range_list,
         },
     )
