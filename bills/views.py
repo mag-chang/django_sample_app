@@ -92,69 +92,8 @@ def get_bill_list(request, year=None, month=None):
 
         sum_histories.append(sum_lesson_history)
 
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    # for idx, history in enumerate(histories):
-    #     if before_customer_id and history.customer.id != before_customer_id:
-    #         print('顧客変わったよ！')
-    #         sum_lesson_history = SumLessonHistory()
-    #         sum_lesson_history.customer_id = before_customer_id
-    #         sum_lesson_history.customer_name = before_customer_name
-    #         sum_lesson_history.lesson_total_count = len(lesson_name_list)
-    #
-    #         unique_lesson_name_list = sorted(set(lesson_name_list), key=lesson_name_list.index)
-    #         sum_lesson_history.lesson_name_sum = '/'.join(unique_lesson_name_list)
-    #         sum_lesson_history.lesson_name_count = len(unique_lesson_name_list)
-    #
-    #         sum_lesson_history.lesson_total_price = subtotal_price
-    #
-    #         sum_histories.append(sum_lesson_history)
-    #         print(sum_lesson_history)
-    #
-    #         subtotal_hour_per_lesson = 0
-    #         subtotal_price = 0
-    #         before_lesson_id = 0
-    #     else:
-    #         print('顧客変わってないよ！')
-    #         if before_lesson_id and history.lesson_plan.id != before_lesson_id:
-    #             print('ジャンル変わったよ！')
-    #             subtotal_price += history.lesson_plan.calculate_price(subtotal_hour_per_lesson)
-    #             subtotal_hour_per_lesson = 0
-    #
-    #         lesson_name_list.append(history.lesson_plan.name)
-    #         subtotal_hour_per_lesson += history.lesson_hour
-    #         print(subtotal_hour_per_lesson)
-    #         print(history.lesson_plan.name)
-    #         print(subtotal_price)
-    #         before_lesson_id = history.lesson_plan.id
-    #
-    #     before_customer_id = history.customer.id
-    #     before_customer_name = history.customer.name
-    #
-    #     if idx == len(histories) - 1:
-    #         print('最後だよ！')
-    #         sum_lesson_history = SumLessonHistory()
-    #         sum_lesson_history.customer_id = before_customer_id
-    #         sum_lesson_history.customer_name = before_customer_name
-    #         sum_lesson_history.lesson_total_count = len(lesson_name_list)
-    #
-    #         unique_lesson_name_list = sorted(set(lesson_name_list), key=lesson_name_list.index)
-    #         sum_lesson_history.lesson_name_sum = '/'.join(unique_lesson_name_list)
-    #         sum_lesson_history.lesson_name_count = len(unique_lesson_name_list)
-    #
-    #         sum_lesson_history.lesson_total_price = subtotal_price
-    #
-    #         sum_histories.append(sum_lesson_history)
-
-    form = ChoiceYearMonthForm()
-    if selected_year_month:
-        form = ChoiceYearMonthForm({'val':selected_year_month})
+    # フォームの初期値に選択済みの値をセット
+    form = ChoiceYearMonthForm({'select_year_month':selected_year_month})
 
     return render(
         request,

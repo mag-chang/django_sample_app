@@ -27,7 +27,3 @@ class ChoiceYearMonthForm(Form):
         widget=Select(),
         choices=choice_month,
     )
-
-    def __init__(self, *args, **kwargs):
-        print(kwargs['val'])
-        super(ChoiceYearMonthForm, self).__init__(*args, **kwargs)
