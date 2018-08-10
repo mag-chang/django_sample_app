@@ -29,6 +29,10 @@ class CalculateLogic(models.Model):
         return self.name
 
     def get_calculate_function(self):
+        """
+        自分自身の `logic_name` に対応した計算ロジックfunctionを返却する
+        :return: function
+        """
         return Logics().__getattribute__(str(self.logic_name))
 
 class Genre(models.Model):
@@ -51,6 +55,11 @@ class Genre(models.Model):
         return self.name
 
     def calculate_price(self, hour):
+        """
+        自分自身に設定されている `calculate_logic` でhourの料金を計算した結果を返却する
+        :param hour: 料金計算する時間
+        :return: 計算結果
+        """
         calculate_function = self.calculate_logic.get_calculate_function()
         return calculate_function(hour)
 
