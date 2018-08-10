@@ -3,7 +3,7 @@
 {% load bootstrap4 %}
 
 {% block title %}
-    {% if plan_id %}
+    {% if genre_id %}
     ジャンル編集
     {% else %}
     ジャンル登録
@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block body %}
-    {% if plan_id %}
+    {% if genre_id %}
     <h4 class="mt-4 mb-5 border-bottom">ジャンル編集</h4>
-    <form action="{% url 'lessons:plan_edit' plan_id=plan_id %}" method="post">
+    <form action="{% url 'lessons:genre_edit' genre_id=genre_id %}" method="post">
     {% else %}
     <h4 class="mt-4 mb-5 border-bottom">ジャンル登録</h4>
-    <form action="{% url 'lessons:plan_add' %}" method="post">
+    <form action="{% url 'lessons:genre_add' %}" method="post">
     {% endif %}
       {% csrf_token %}
       {% bootstrap_form form layout='horizontal' %}

@@ -23,5 +23,29 @@
       "name": "ファイナンス基本プラン",
       "logic_name": "calculate_finance"
     }
+  },
+  {
+    "model": "lessons.Genre",
+    "pk": 1,
+    "fields":{
+      "name": "英語",
+      "calculate_logic_id": 1
+    }
+  },
+  {
+    "model": "lessons.Genre",
+    "pk": 2,
+    "fields":{
+      "name": "プログラミング",
+      "calculate_logic_id": 2
+    }
+  },
+  {
+    "model": "lessons.Genre",
+    "pk": 3,
+    "fields":{
+      "name": "ファイナンス",
+      "calculate_logic_id": 3
+    }
   }
 ]

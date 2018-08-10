@@ -1,6 +1,7 @@
-from datetime import date
+from django.utils import timezone
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+
 from customers.models import Customer
 from lessons.calculate_logics.logics import Logics
 
@@ -30,9 +31,9 @@ class CalculateLogic(models.Model):
     def get_calculate_function(self):
         return Logics().__getattribute__(str(self.logic_name))
 
-class Plan(models.Model):
+class Genre(models.Model):
     """
-    受講プラン
+    受講ジャンル
     """
     name = models.CharField(
         verbose_name='ジャンル名',
@@ -43,8 +44,8 @@ class Plan(models.Model):
         verbose_name='計算方法',
         on_delete=models.PROTECT,
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.name
@@ -64,10 +65,10 @@ class History(models.Model):
     )
     lesson_on = models.DateField(
         verbose_name='受講日',
-        default=date.today(),
+        default=timezone.now().date(),
     )
-    lesson_plan = models.ForeignKey(
-        Plan,
+    lesson_genre = models.ForeignKey(
+        Genre,
         verbose_name='ジャンル',
         on_delete=models.CASCADE,
     )
