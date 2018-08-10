@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+レポート
+{% endblock %}
+
+{% block body %}
+<h4 class="mt-4 border-bottom">レポート</h4>
+<form action="{% url 'reports:list' %}" method="post">
+      {% csrf_token %}
+  <label>{{ form.select_year_month.label }} {{ form.select_year_month }}</label>
+  <input type="submit" value="送信">
+</form>
+ジャンルと性別別
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">ジャンル</th>
+      <th scope="col">性別</th>
+      <th scope="col">レッスン数</th>
+      <th scope="col">受講者数</th>
+      <th scope="col">売り上げ</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for genre_and_gender in genre_and_gender_list %}
+    <tr>
+      <th scope="row">{{ genre_and_gender.plan }} </th>
+      <th>{{ genre_and_gender.gender }} </th>
+      <th>{{ genre_and_gender.lesson_count }} </th>
+      <th>{{ genre_and_gender.customer_count }} </th>
+      <th>{{ genre_and_gender.price }} </th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

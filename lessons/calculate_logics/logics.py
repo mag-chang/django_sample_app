@@ -12,7 +12,21 @@ class VolumeDiscount(object):
         self.price = price
         self.calculated_price = calculated_price
 
+
+def deco_check_zero_hour(func):
+    """
+    lesson_hourが0なら、0をreturnする
+    """
+    def _deco_check_zero_hour(*args, **kwargs):
+        if args[1] == 0:
+            return 0
+        return func(*args, **kwargs)
+    return _deco_check_zero_hour
+
+
 class Logics(object):
+
+    @deco_check_zero_hour
     def calculate_english(self, lesson_hour):
         """
         英語の料金計算
@@ -23,6 +37,7 @@ class Logics(object):
         volume_price = 3500
         return base_price + (lesson_hour * volume_price)
 
+    @deco_check_zero_hour
     def calculate_programming(self, lesson_hour):
         """
         プログラミングの料金計算
@@ -51,6 +66,7 @@ class Logics(object):
 
         return total_price
 
+    @deco_check_zero_hour
     def calculate_finance(self, lesson_hour):
         """
         ファイナンスの料金計算

@@ -40,12 +40,14 @@ class CalculateLogicTest(TestCase):
         self.assertEqual(result_hour, assert_hour)
 
     def test_calculate_english(self):
+        self.assertEqual(logics.Logics().calculate_english(0), 0)
         self.assertEqual(logics.Logics().calculate_english(15), 57500)
         self.assertEqual(logics.Logics().calculate_english(20), 75000)
         self.assertEqual(logics.Logics().calculate_english(30), 110000)
         self.assertEqual(logics.Logics().calculate_english(80), 285000)
 
     def test_calculate_programming(self):
+        self.assertEqual(logics.Logics().calculate_programming(0), 0)
         self.assertEqual(logics.Logics().calculate_programming(12), 44500)
         self.assertEqual(logics.Logics().calculate_programming(20), 72500)
         self.assertEqual(logics.Logics().calculate_programming(21), 75500)
@@ -59,6 +61,7 @@ class CalculateLogicTest(TestCase):
         self.assertEqual(logics.Logics().calculate_programming(80), 234500)
 
     def test_calculate_finance(self):
+        self.assertEqual(logics.Logics().calculate_finance(0), 0)
         self.assertEqual(logics.Logics().calculate_finance(20), 66000)
         self.assertEqual(logics.Logics().calculate_finance(21), 68800)
         self.assertEqual(logics.Logics().calculate_finance(30), 94000)
