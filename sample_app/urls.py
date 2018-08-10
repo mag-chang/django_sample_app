@@ -20,7 +20,7 @@ from templates import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index.index_template, name='index'),
-    # path('bills/', include('bills.urls')),
+    path('bills/', include('bills.urls')),
     path('customers/', include('customers.urls')),
     path('lessons/', include('lessons.urls')),
     # path('reports/', include('reports.urls')),

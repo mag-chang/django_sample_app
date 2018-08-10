@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+請求一覧
+{% endblock %}
+
+{% block body %}
+<h4 class="mt-4 border-bottom">請求一覧</h4>
+<form action="{% url 'bills:list' %}" method="post">
+      {% csrf_token %}
+  <label>{{ form.select_year_month.label }} {{ form.select_year_month }}</label>
+  <input type="submit" value="送信">
+</form>
+<table class="table table-sm table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">顧客ID</th>
+      <th scope="col">顧客名</th>
+      <th scope="col">ジャンル</th>
+      <th scope="col">合計レッスン数</th>
+      <th scope="col">請求金額</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for history in billing_histories %}
+    <tr>
+      <th scope="row">{{ history.customer_id }}</th>
+      <td>{{ history.customer_name }}</td>
+      <td>{{ history.lesson_name_sum }} ({{ history.lesson_name_count }})</td>
+      <td>{{ history.lesson_total_count }}</td>
+      <td>{{ history.lesson_total_price}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
