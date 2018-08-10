@@ -1,7 +1,8 @@
+from datetime import date
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from customers.models import Customer
 from lessons.calculate_logics.logics import Logics
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class CalculateLogic(models.Model):
@@ -63,6 +64,7 @@ class History(models.Model):
     )
     lesson_on = models.DateField(
         verbose_name='受講日',
+        default=date.today(),
     )
     lesson_plan = models.ForeignKey(
         Plan,

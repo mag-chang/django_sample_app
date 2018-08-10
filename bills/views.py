@@ -1,5 +1,5 @@
-from dateutil.relativedelta import relativedelta
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render
 from lessons.models import History
@@ -21,19 +21,25 @@ def get_bill_list(request, year=None, month=None):
     請求一覧を取得する
     """
 
-    # 全顧客を取得
-    all_customers = Customer.objects.all().order_by('id')
-
-    today = date.today()
-    if not year or not month:
-        year = today.year
-        month = today.month
+    # 日付選択プルダウンからのリクエスト
+    if request.POST:
+        selected_year_month = request.POST.get('select_year_month').split('/')
+        year = int(selected_year_month[0])
+        month = int(selected_year_month[1])
+    else:
+        if not year or not month:
+            today = date.today()
+            year = today.year
+            month = today.month
 
     start_date = date(year, month, 1)
     end_date = start_date + relativedelta(months=1) - relativedelta(days=1)
 
     # SumLessonHistoryのList(templateに返却)
     sum_histories = []
+
+    # 全顧客を取得
+    all_customers = Customer.objects.all().order_by('id')
 
     for customer in all_customers:
         # 顧客毎の受講履歴を取得
@@ -144,7 +150,7 @@ def get_bill_list(request, year=None, month=None):
     #
     #         sum_histories.append(sum_lesson_history)
 
-    form = ChoiceYearMonthForm(request.GET or None)
+    form = ChoiceYearMonthForm()
     return render(
         request,
         'bills/list.html',

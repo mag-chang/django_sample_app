@@ -6,10 +6,8 @@
 
 {% block body %}
 <h4 class="mt-4 border-bottom">請求一覧</h4>
-<form action="" method="get">
-  {% for year_month in form.select_year_month %}
-    {{ year_month | date:"%Y%d" }}
-  {% endfor %}
+<form action="{% url 'bills:list' %}" method="post">
+      {% csrf_token %}
   <label>{{ form.select_year_month.label }} {{ form.select_year_month }}</label>
   <input type="submit" value="送信">
 </form>
