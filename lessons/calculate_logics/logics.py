@@ -25,6 +25,10 @@ def deco_check_zero_hour(func):
 
 
 class Logics(object):
+    """
+    このクラス配下の関数として定義した関数名を `CalculateLogic` テーブルに登録すると
+    受講ジャンルの計算方法として選択できるようになります。
+    """
 
     @deco_check_zero_hour
     def calculate_english(self, lesson_hour):
