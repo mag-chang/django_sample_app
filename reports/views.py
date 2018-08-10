@@ -47,10 +47,10 @@ def get_report(request, year=None, month=None):
     # 全ジャンルを取得
     all_genres = Genre.objects.all().order_by('id')
 
-    # 現在として全ての購入データを出せるのか。(津田さん)
-
+    # ジャンル毎に集計
     for genre in all_genres:
         gender_count_dict = {}
+        # 最初に性別をキーにしたdictを作成
         for gender_tuple in Customer.GENDER:
             gender_count_dict[gender_tuple[0]] = []
 
@@ -61,6 +61,7 @@ def get_report(request, year=None, month=None):
         )
 
         if histories:
+            # 受講履歴があれば受講履歴毎の集計用データを作成
             for history in histories:
                 gender_count_dict[history.customer.gender].append(
                     {
@@ -73,32 +74,38 @@ def get_report(request, year=None, month=None):
                 #    { '男性':
                 #       [
                 #           {
-                #                'customer_id': 1
-                #                'hour': 5
+                #                'customer_id': 1,
+                #                'hour': 5,
+                #                'age_range': 10,
                 #           },
                 #           {
-                #                'customer_id': 1
-                #                'hour': 12
+                #                'customer_id': 1,
+                #                'hour': 12,
+                #                'age_range': 10,
                 #           },
                 #           {
-                #                'customer_id': 2
-                #                'hour': 3
+                #                'customer_id': 2,
+                #                'hour': 3,
+                #                'age_range': 30,
                 #           },
                 #       ]
                 #    },
                 #    { '女性':
                 #        [
                 #           {
-                #                'customer_id': 3
-                #                'hour': 10
+                #                'customer_id': 3,
+                #                'hour': 10,
+                #                'age_range': 20,
                 #           },
                 #           {
-                #                'customer_id': 4
-                #                'hour': 3
+                #                'customer_id': 4,
+                #                'hour': 3,
+                #                'age_range': 30,
                 #           },
                 #        ]
                 #    }
 
+        # 性別毎のdictをループ
         for key, value in gender_count_dict.items():
             df = pd.DataFrame(value)
 
