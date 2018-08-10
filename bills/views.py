@@ -22,10 +22,12 @@ def get_bill_list(request, year=None, month=None):
     """
 
     # 日付選択プルダウンからのリクエスト
+    selected_year_month = None
     if request.POST:
-        selected_year_month = request.POST.get('select_year_month').split('/')
-        year = int(selected_year_month[0])
-        month = int(selected_year_month[1])
+        selected_year_month = request.POST.get('select_year_month')
+        split_year_month = selected_year_month.split('/')
+        year = int(split_year_month[0])
+        month = int(split_year_month[1])
     else:
         if not year or not month:
             today = date.today()
@@ -151,6 +153,9 @@ def get_bill_list(request, year=None, month=None):
     #         sum_histories.append(sum_lesson_history)
 
     form = ChoiceYearMonthForm()
+    if selected_year_month:
+        form = ChoiceYearMonthForm({'val':selected_year_month})
+
     return render(
         request,
         'bills/list.html',
