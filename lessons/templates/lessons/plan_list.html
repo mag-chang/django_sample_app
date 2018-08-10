@@ -11,8 +11,6 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">ジャンル名</th>
-      <th scope="col">適用開始月</th>
-      <th scope="col">適用終了月</th>
       <th scope="col">計算方法</th>
     </tr>
   </thead>
@@ -21,8 +19,6 @@
     <tr>
       <th scope="row">{{ plan.id }}</th>
       <td>{{ plan.name }}</td>
-      <td>{{ plan.started_on|date:"Y/m" }}</td>
-      <td>{{ plan.ended_on|date:"Y/m" }}</td>
       <td>{{ plan.calculate_logic }}</td>
       <td>
         <a href="{% url 'lessons:plan_edit' plan_id=plan.id %}" class="btn btn-outline-primary btn-sm">編集</a>

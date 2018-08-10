@@ -21,8 +21,7 @@ class Logics(object):
         """
         base_price = 5000
         volume_price = 3500
-
-        return base_price + lesson_hour * volume_price
+        return base_price + (lesson_hour * volume_price)
 
     def calculate_programming(self, lesson_hour):
         """

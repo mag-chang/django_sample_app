@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ModelChoiceField, DateField, SelectDateWidget
+from django.forms import ModelForm, DateField, SelectDateWidget
 from lessons.models import History, Plan, CalculateLogic
 
 
